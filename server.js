@@ -1,26 +1,25 @@
 const express = require("express");
-const mysql = require("mysql");
+const mysql = require("mysql2");       // mysql2 for SSL
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));  // Serve frontend folder
+app.use(express.static(path.join(__dirname, "public")));  
 
-// ---------------- MySQL Connection -------------------
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "noteit",
-    port: 3307
+    host: "mysql-146fb2d9-noteit.k.aivencloud.com",
+    user: "avnadmin",
+    password: "AVNS_e6T5bM50qGg8FqiOfRW",
+    database: "defaultdb",
+    port: 16875,
+    ssl: { rejectUnauthorized: false }
 });
 
-db.connect((err) => {
+db.connect(err => {
     if (err) {
         console.log("MySQL Connection Failed", err);
     } else {
@@ -28,31 +27,21 @@ db.connect((err) => {
     }
 });
 
-// ---------------- API ROUTES -------------------
-
-// Save or update text based on username
 app.post("/save", (req, res) => {
-    console.log("REQ.BODY:", req.body);
-
     const { username, text } = req.body;
-
-    if (!username) {
-        return res.status(400).send({ message: "Username Required" });
-    }
+    if (!username || !text) return res.status(400).send({ message: "Username & Text Required" });
 
     const checkQuery = "SELECT * FROM note WHERE username = ?";
     db.query(checkQuery, [username], (err, result) => {
         if (err) return res.status(500).send(err);
 
         if (result.length > 0) {
-            const updateQuery = "UPDATE note SET text=? WHERE username=?";
-            db.query(updateQuery, [text, username], (err) => {
+            db.query("UPDATE note SET text=? WHERE username=?", [text, username], (err) => {
                 if (err) return res.status(500).send(err);
                 res.send({ message: "Updated Successfully" });
             });
         } else {
-            const insertQuery = "INSERT INTO note(username, text) VALUES (?,?)";
-            db.query(insertQuery, [username, text], (err) => {
+            db.query("INSERT INTO note(username, text) VALUES (?,?)", [username, text], (err) => {
                 if (err) return res.status(500).send(err);
                 res.send({ message: "Saved Successfully" });
             });
@@ -60,28 +49,17 @@ app.post("/save", (req, res) => {
     });
 });
 
-// Get saved text
 app.get("/load/:username", (req, res) => {
     const username = req.params.username;
-    const query = "SELECT text FROM note WHERE username=?";
-
-    db.query(query, [username], (err, result) => {
+    db.query("SELECT text FROM note WHERE username=?", [username], (err, result) => {
         if (err) return res.status(500).send(err);
-        if (result.length > 0) {
-            res.send({ text: result[0].text });
-        } else {
-            res.send({ text: "" });
-        }
+        res.send({ text: result.length > 0 ? result[0].text : "" });
     });
 });
 
-// ---------------- Serve note1.html on root ----------------
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "note1.html"));
 });
 
-// ---------------- START SERVER -------------------
-const PORT = 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
