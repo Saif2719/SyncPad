@@ -40,7 +40,7 @@ document.getElementById("loadBtn").addEventListener("click", async () => {
 function toggleTheme() {
   document.body.classList.toggle("dark");
   if (document.body.classList.contains("dark")) {
-    document.body.style.background = "linear-gradient(135deg, #000428, #004e92)";
+    document.body.style.background = "linear-gradient(135deg, #000428, #023e73ff)";
   } else {
     document.body.style.background = "linear-gradient(135deg, #1d2671, #c33764)";
   }
