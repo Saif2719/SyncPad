@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:5000";   // Recommended
+const baseUrl = window.location.origin;   // Recommended
 
 document.getElementById("saveBtn").addEventListener("click", async () => {
   const username = document.getElementById("username").value.trim();
