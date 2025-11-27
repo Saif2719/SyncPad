@@ -38,10 +38,25 @@ document.getElementById("loadBtn").addEventListener("click", async () => {
 });
 
 function toggleTheme() {
+  const themeToggle = document.querySelector(".theme-toggle"); 
   document.body.classList.toggle("dark");
   if (document.body.classList.contains("dark")) {
     document.body.style.background = "linear-gradient(135deg, #000428, #023e73ff)";
+    themeToggle.textContent = "☀️ Light Mode";
   } else {
     document.body.style.background = "linear-gradient(135deg, #1d2671, #c33764)";
+    themeToggle.textContent = "🌙 Dark Mode";
   }
 }
+const usernameInput = document.getElementById("username");
+const toggleEye = document.getElementById("toggleEye");
+
+toggleEye.addEventListener("click", () => {
+  if (usernameInput.type === "password") {
+    usernameInput.type = "text";
+    toggleEye.textContent = "🔒"; // change icon when visible
+  } else {
+    usernameInput.type = "password";
+    toggleEye.textContent = "👁️";
+  }
+});
