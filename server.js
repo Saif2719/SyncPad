@@ -9,14 +9,18 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));  
+require('dotenv').config();
+
 
 const db = mysql.createConnection({
-    host: "mysql-146fb2d9-noteit.k.aivencloud.com",
-    user: "avnadmin",
-    password: "AVNS_e6T5bM50qGg8FqiOfRW",
-    database: "defaultdb",
-    port: 16875,
-    ssl: { rejectUnauthorized: false }
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
+  ssl: {
+    rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === 'true'
+  }
 });
 
 db.connect(err => {
