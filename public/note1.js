@@ -6,7 +6,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
   if (!username) return alert("Please enter a username");
 
-  try {
+try {
     const response = await fetch(baseUrl + "/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
