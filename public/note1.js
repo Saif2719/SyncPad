@@ -4,7 +4,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
   const username = document.getElementById("username").value.trim();
   const text = document.getElementById("content").value;   // FIXED
 
-  if (!username) return alert("Please enter a username");
+  if (!username) return showAlert("Please enter a username");
 
 try {
     const response = await fetch(baseUrl + "/save", {
@@ -14,28 +14,35 @@ try {
     });
 
     const result = await response.json();
-    alert(result.message || "Saved Successfully ✔");
+    showAlert(result.message || "Saved Successfully ✔");
   } catch (error) {
     console.error(error);
-    alert("Network Error ❌");
+    showAlert("Network Error ❌");
   }
 });
 
 document.getElementById("loadBtn").addEventListener("click", async () => {
   const username = document.getElementById("username").value.trim();
-  if (!username) return alert("Please enter a username");
+  if (!username) return showAlert("Please enter a username");
 
   try {
     const response = await fetch(baseUrl + "/load/" + encodeURIComponent(username));
-    const result = await response.json();
 
-    document.getElementById("content").value = result.text || "";   // CORRECT
+    if (!response.ok) {
+      const data = await response.json();
+      showAlert(data.message);   // 🔥 showAlert if username not in DB
+      return;
+    }
+
+    const result = await response.json();
+    document.getElementById("content").value = result.text || "";
     
   } catch (error) {
     console.error(error);
-    alert("Network Error ❌");
+    showAlert("Network Error ❌");
   }
 });
+
 
 function toggleTheme() {
   const themeToggle = document.querySelector(".theme-toggle"); 
@@ -60,3 +67,15 @@ toggleEye.addEventListener("click", () => {
     toggleEye.textContent = "👁️";
   }
 });
+
+function showAlert(message) {
+  const alertBox = document.getElementById("customAlert");
+  const alertMessage = document.getElementById("alertMessage");
+
+  alertMessage.textContent = message;
+  alertBox.classList.add("show");
+
+  setTimeout(() => {
+    alertBox.classList.remove("show");
+  }, 2000);
+}

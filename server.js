@@ -55,11 +55,18 @@ app.post("/save", (req, res) => {
 
 app.get("/load/:username", (req, res) => {
     const username = req.params.username;
+
     db.query("SELECT text FROM note WHERE username=?", [username], (err, result) => {
         if (err) return res.status(500).send(err);
-        res.send({ text: result.length > 0 ? result[0].text : "" });
+
+        if (result.length === 0) {
+            return res.status(404).send({ message: "User not found" });
+        }
+
+        res.send({ text: result[0].text });
     });
 });
+
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "note1.html"));

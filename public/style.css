@@ -149,6 +149,26 @@
     z-index: 1000;   /* make sure it stays above everything */
 
   }
+  .alert-box {
+  position: fixed;
+  top: 35px;
+  left: -400px;  /* hidden at start */
+  background: #b95757;
+  color: #fff;
+  padding: 16px 22px;
+  border-radius: 10px;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 9999;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition: left 0.4s ease;
+}
+
+.alert-box.show {
+  left: 20px;   /* slide in */
+}
 
   .footer {
   width: 100%;
