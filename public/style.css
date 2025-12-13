@@ -170,17 +170,23 @@
   left: 20px;   /* slide in */
 }
 
-  .footer {
-  width: 100%;
-  text-align: center;
-  position: fixed;
-  bottom: 10px;
-  left: 0;
-  font-size: 15px;
-  opacity: 0.7;
-  color: #fff;
-  font-weight: 400;
+  footer {
+    width: 100%;
+    border-top: 1px solid #585656;
+    /* background-color: #554dce; */
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-family: Arial, sans-serif;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
+#foter{
+    margin: 0;
+    font-size: 14px;
+}
+
 
   .theme-toggle:hover { background: rgba(255,255,255,0.32); }
   /* For tablets & small laptops */
