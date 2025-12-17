@@ -66,16 +66,20 @@ function toggleTheme() {
 
 const usernameInput = document.getElementById("username");
 const toggleEye = document.getElementById("toggleEye");
+const eyeIcon = toggleEye.querySelector("i");
 
 toggleEye.addEventListener("click", () => {
   if (usernameInput.type === "password") {
     usernameInput.type = "text";
-    toggleEye.textContent = "🔒";
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
   } else {
     usernameInput.type = "password";
-    toggleEye.textContent = "👁️";
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
   }
 });
+
 
 function showAlert(message) {
   const alertBox = document.getElementById("customAlert");
