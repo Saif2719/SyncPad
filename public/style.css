@@ -37,6 +37,7 @@
 .input-container {
   position: relative;
   display: inline-block;
+  margin-top: 8px;
 }
 
 #username {
@@ -66,9 +67,9 @@
   max-height: 90vh;         /* prevent too tall container */
   overflow-y: auto;         /* enables scroll if content too big */
 
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(18px);
-  padding: 35px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(18px);
+    padding: 20px 35px 35px; /* smaller top padding so logo sits near top */
   border-radius: 22px;
   text-align: center;
   box-shadow: 0 0 25px rgba(0,0,0,0.4);
@@ -76,14 +77,19 @@
 }
 
 
-  h1 {
+  /* h1 {
     font-size: 32px;
     font-weight: 600;
     color: #cfcaca;
     margin-bottom: 20px;
     text-shadow: 0 0 10px rgba(255,255,255,0.6);
+  } */
+.logo {
+    width: 120px;
+    height: 140px;
+    display: block;
+    margin: 0 auto 4px; /* centered and just above the input */
   }
-
   input, textarea {
     width: 100%;
     padding: 14px;
@@ -238,6 +244,12 @@
   .btn-box {
     flex-direction: column;
     gap: 12px;
+  }
+  .logo {
+    width: 90px;
+    height: 90px;
+    display: block;
+    margin: 0 auto 12px; /* centered and just above the input */
   }
 
   .theme-toggle {
